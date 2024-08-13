@@ -1,8 +1,5 @@
 #pragma once
 #include <memory>
-#include <glm/vec3.hpp>
-#include <glm/ext/matrix_float4x4.hpp>
-#include <glm/ext/matrix_transform.hpp>
 
 class Transform {
 public:

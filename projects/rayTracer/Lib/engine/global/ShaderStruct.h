@@ -2,9 +2,8 @@
 #include <vector>
 
 struct ShaderStruct {
-public:
 	virtual ~ShaderStruct() = default;
-	[[nodiscard]] virtual std::vector<std::byte> GetBytes() = 0;
+	virtual std::vector<std::byte> GetBytes() = 0;
 
 private:
 	static size_t AddSize() {return 0;}

@@ -1,8 +1,7 @@
 #pragma once
-#include <glm/ext/matrix_float4x4.hpp>
 #include <numbers>
 
-#include "Transform.h"
+#include "../global/Transform.h"
 
 class Camera {
 public:
@@ -11,6 +10,16 @@ public:
 		ExtractRotation(),
 		ExtractScale()
 	}{}
+
+	void LateInit(const glm::mat4 &view, const glm::mat4 &proj) {
+		viewMatrix = view;
+		projMatrix = proj;
+		transform = {
+			ExtractTranslation(),
+			ExtractRotation(),
+			ExtractScale()
+		};
+	}
 
 	Camera(const glm::mat4 &view, const glm::mat4 &proj) :
 		viewMatrix(view),
@@ -28,12 +37,12 @@ public:
 		return glm::vec3(inverse(viewMatrix)[3]);
 	};
 
-	[[nodiscard]] glm::vec3 ExtractTranslation() const
+	glm::vec3 ExtractTranslation() const
 	{
 		return transpose(viewMatrix) * -viewMatrix[3];
 	}
 
-	[[nodiscard]] glm::vec3 ExtractRotation() const
+	glm::vec3 ExtractRotation() const
 	{
 		glm::vec3 rotation(0.0f);
 		if (const float f = viewMatrix[1][2]; std::abs(std::abs(f) - 1.0f) < 0.00001f)
@@ -52,7 +61,7 @@ public:
 		return rotation;
 	}
 
-	[[nodiscard]] glm::vec3 ExtractScale() const
+	glm::vec3 ExtractScale() const
 	{
 		return {viewMatrix[0].length(), viewMatrix[1].length(), viewMatrix[2].length()};
 	}
